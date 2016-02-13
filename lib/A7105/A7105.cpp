@@ -22,6 +22,11 @@ void A7105::init_registers() {
   write_register(A7105_REG_CLOCK, 0x05);
 
   Serial << "reg(clock) = " << read_register(A7105_REG_CLOCK) << endl;
+  if (read_register(A7105_REG_CLOCK) == 0x05) {
+    Serial << "chip and wiring are sane." << endl;
+  } else {
+    panic("chip is not returning sane values. check your wiring.");
+  }
 
   write_register(A7105_REG_DATA_RATE, 0x04);
   write_register(A7105_REG_TX_II, 0x2b);
