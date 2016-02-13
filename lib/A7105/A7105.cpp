@@ -38,6 +38,10 @@ void A7105::init_registers() {
   write_register(A7105_REG_RX_DEM_TEST, 0x47);
 }
 
+void A7105::set_channel(u8 channel) {
+  Serial << "set_channel(" << _HEX(channel) << ")" << endl;
+  write_register(A7105_REG_PLL_I, channel);
+}
 
 // -- debugging
 void A7105::dump_registers() {
