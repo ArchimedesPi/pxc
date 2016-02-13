@@ -38,12 +38,17 @@ void A7105::init_registers() {
   write_register(A7105_REG_RX_DEM_TEST, 0x47);
 }
 
+
+// -- debugging
 void A7105::dump_registers() {
   for (int reg=0x00; reg<=0xff; reg++) {
     Serial << "reg(" << _HEX(reg) << ") = " << read_register(reg) << endl;
   }
 }
 
+
+
+// -- low-level device communication
 void A7105::reset() {
   write_register(A7105_REG_MODE, 0x00); // soft reset
 }
