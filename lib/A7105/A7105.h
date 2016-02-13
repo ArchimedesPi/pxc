@@ -5,7 +5,7 @@
 #include <Streaming.h>
 #include <SPI.h>
 
-#include "addresses.h"
+#include "constants.h"
 
 #define u8 uint8_t
 

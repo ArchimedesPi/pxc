@@ -42,4 +42,14 @@
 
 #define A7105_ENABLE_4WIRE 0x19 // value written to GIO1S to enable 4-wire SPI
 
+// -- states
+#define A7105_STATE_SLEEP                0x80
+#define A7105_STATE_IDLE                 0x90
+#define A7105_STATE_STANDBY              0xA0
+#define A7105_STATE_PLL                  0xB0
+#define A7105_STATE_RX                   0xC0
+#define A7105_STATE_TX                   0xD0
+#define A7105_STATE_RESET_WRITE_POINTER  0xE0
+#define A7105_STATE_RESET_READ_POINTER   0xF0
+
 #endif
