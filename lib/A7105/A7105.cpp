@@ -38,6 +38,53 @@ void A7105::init_registers() {
   write_register(A7105_REG_RX_DEM_TEST, 0x47);
 }
 
+// we use deviation's specs here, instead of the datasheet. this is a bit wtfy but it works.
+void A7105::calibrate_if() {
+  Serial << "Calibrating IF bank: ";
+
+  write_register(A7105_REG_CALIBRATION, 0b001);
+
+  int tries = 0;
+  do {
+    Serial << "*";
+    if (tries >= 3)
+      panic("IF calibration timed out!");
+
+    delay(1);
+    tries += 1;
+  } while (!!read_register(A7105_REG_CALIBRATION));
+
+  if (read_register(A7105_REG_IF_CALIBRATION_I) & 0b1000 != 0) {
+    Serial << _HEX(read_register(A7105_REG_IF_CALIBRATION_I)) << endl;
+    panic("IF calibration failed");
+  }
+
+  Serial << " [DONE]" << endl;
+}
+
+void A7105::calibrate_vco(u8 channel) {
+  Serial << "Calibrating VCO channel " << _HEX(channel) << " ";
+
+  set_channel(channel);
+
+  write_register(A7105_REG_CALIBRATION, 0b010);
+
+  int tries = 0;
+  do {
+    Serial << "*";
+    if (tries >= 3)
+      panic("VCO calibration timed out!");
+
+    delay(1);
+    tries += 1;
+  } while ((read_register(A7105_REG_CALIBRATION) & 0b010) != 0);
+
+  if ((read_register(A7105_REG_VCO_CALIBRATION_I) & 0b1000) != 0)
+    panic("VCO calibration failed");
+
+  Serial << " [DONE]";
+}
+
 void A7105::set_channel(u8 channel) {
   Serial << "set_channel(" << _HEX(channel) << ")" << endl;
   write_register(A7105_REG_PLL_I, channel);

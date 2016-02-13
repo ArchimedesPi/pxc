@@ -28,6 +28,9 @@ private:
   inline void t_end() {digitalWrite(cs_pin, HIGH);}
 
   void init_registers();
+  void calibrate_if();
+  void calibrate_vco(u8 channel);
+
   void set_channel(u8 channel);
 
   void write_register(u8 reg, u8 data);
