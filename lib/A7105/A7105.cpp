@@ -14,6 +14,12 @@ void A7105::begin() {
   write_register(A7105_REG_GIO1S, A7105_ENABLE_4WIRE); // enable 4-wire spi
 
   init_registers();
+
+  strobe(A7105_STATE_STANDBY);
+
+  delay(10);
+
+  calibrate_if();
 }
 
 void A7105::init_registers() {
