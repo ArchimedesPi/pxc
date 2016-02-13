@@ -9,6 +9,11 @@
 
 #define u8 uint8_t
 
+inline void panic(char* msg) {
+  Serial << "PANIC (" << msg << ")!" << endl <<" HANGING." << endl;
+  while (true) {}
+}
+
 class A7105 {
 public:
   A7105(u8 _cs_pin);
