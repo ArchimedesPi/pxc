@@ -31,6 +31,7 @@ private:
 
   void write_register(u8 reg, u8 data);
   u8 read_register(u8 reg);
+  void strobe(u8 state);
 
   u8 cs_pin;
 };
