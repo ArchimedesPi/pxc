@@ -20,6 +20,12 @@ void A7105::begin() {
   delay(10);
 
   calibrate_if();
+  delay(1);
+  calibrate_vco(0x00);
+  delay(1);
+  calibrate_vco(0xa0);
+
+  strobe(A7105_STATE_STANDBY);
 }
 
 void A7105::init_registers() {
