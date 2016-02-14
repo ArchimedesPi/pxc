@@ -26,6 +26,8 @@ void A7105::begin() {
   calibrate_vco(0xa0);
 
   strobe(A7105_STATE_STANDBY);
+
+  set_tx_power(A7105_TXPOWER_30mW);
 }
 
 void A7105::init_registers() {
@@ -103,6 +105,24 @@ void A7105::calibrate_vco(u8 channel) {
 void A7105::set_channel(u8 channel) {
   Serial << "set_channel(" << _HEX(channel) << ")" << endl;
   write_register(A7105_REG_PLL_I, channel);
+}
+
+void A7105::set_tx_power(u8 power) {
+  Serial << "Setting TX power to level " << power << " (internal enum id). ";
+  u8 pac, tbg;
+  switch(power) {
+    case 0: pac = 0; tbg = 0; break;
+    case 1: pac = 0; tbg = 1; break;
+    case 2: pac = 0; tbg = 2; break;
+    case 3: pac = 0; tbg = 4; break;
+    case 4: pac = 1; tbg = 5; break;
+    case 5: pac = 2; tbg = 7; break;
+    case 6: pac = 3; tbg = 7; break;
+    case 7: pac = 3; tbg = 7; break;
+    default: pac = 0; tbg = 0; break;
+  };
+  Serial << "TX power registers: pac = 0x" << _HEX(pac) << "; tbg = 0x" << _HEX(tbg) << endl;
+  write_register(A7105_REG_TX_TEST, (pac << 3) | tbg);
 }
 
 // -- debugging

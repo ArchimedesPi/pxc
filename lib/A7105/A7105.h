@@ -32,6 +32,7 @@ private:
   void calibrate_vco(u8 channel);
 
   void set_channel(u8 channel);
+  void set_tx_power(u8 powerlevel);
 
   void write_register(u8 reg, u8 data);
   u8 read_register(u8 reg);
