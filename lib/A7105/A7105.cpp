@@ -121,7 +121,7 @@ void A7105::set_tx_power(u8 power) {
     case 7: pac = 3; tbg = 7; break;
     default: pac = 0; tbg = 0; break;
   };
-  Serial << "TX power registers: pac = 0x" << _HEX(pac) << "; tbg = 0x" << _HEX(tbg) << endl;
+  Serial << "TX power registers: pac = 0x" << _HEX(pac) << ", tbg = 0x" << _HEX(tbg) << endl;
   write_register(A7105_REG_TX_TEST, (pac << 3) | tbg);
 }
 

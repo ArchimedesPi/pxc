@@ -1,6 +1,7 @@
 #ifndef __A7105_ADDRESSES_H__
 #define __A7105_ADDRESSES_H__
 
+// -- registers
 enum A7105_Register {
   // reset, etc
   A7105_REG_MODE = 0x00,
