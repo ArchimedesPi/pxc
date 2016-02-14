@@ -46,22 +46,25 @@ void A7105::init_registers() {
 
 // we use deviation's specs here, instead of the datasheet. this is a bit wtfy but it works.
 void A7105::calibrate_if() {
-  Serial << "Calibrating IF bank: ";
+  Serial << "Calibrating IF bank: " << endl;
 
   write_register(A7105_REG_CALIBRATION, 0b001);
 
-  int tries = 0;
-  do {
-    Serial << "*";
-    if (tries >= 3)
-      panic("IF calibration timed out!");
+  read_register(A7105_REG_CALIBRATION);
 
-    delay(1);
-    tries += 1;
-  } while (!!read_register(A7105_REG_CALIBRATION));
+  unsigned long ms = millis();
+  while (millis() - ms < 500) {
+    if (!read_register(A7105_REG_CALIBRATION)) break;
+  }
+  if (millis() - ms >= 500) {
+    panic("IF calibration timed out!");
+  }
 
-  if (read_register(A7105_REG_IF_CALIBRATION_I) & 0b1000 != 0) {
-    Serial << _HEX(read_register(A7105_REG_IF_CALIBRATION_I)) << endl;
+  u8 calib_result = read_register(A7105_REG_IF_CALIBRATION_I);
+  read_register(0x24);
+  Serial << "IF calib result: 0x" << _HEX(calib_result) << "/0b" << _BIN(calib_result) << endl;
+
+  if (calib_result & (1 << 4)) {
     panic("IF calibration failed");
   }
 
@@ -69,26 +72,26 @@ void A7105::calibrate_if() {
 }
 
 void A7105::calibrate_vco(u8 channel) {
-  Serial << "Calibrating VCO channel " << _HEX(channel) << " ";
+  Serial << "Calibrating VCO channel 0x" << _HEX(channel) << endl;
 
   set_channel(channel);
 
   write_register(A7105_REG_CALIBRATION, 0b010);
 
-  int tries = 0;
-  do {
-    Serial << "*";
-    if (tries >= 3)
-      panic("VCO calibration timed out!");
+  unsigned long ms = millis();
+  while(millis() - ms < 500) {
+    if (!read_register(A7105_REG_CALIBRATION)) break;
+  }
+  if (millis() - ms >= 500) {
+    panic("VCO calibration timed out!");
+  }
 
-    delay(1);
-    tries += 1;
-  } while ((read_register(A7105_REG_CALIBRATION) & 0b010) != 0);
-
-  if ((read_register(A7105_REG_VCO_CALIBRATION_I) & 0b1000) != 0)
+  u8 calib_result = read_register(A7105_REG_VCO_CALIBRATION_I);
+  if (calib_result & (1 << 3)) {
     panic("VCO calibration failed");
+  }
 
-  Serial << " [DONE]";
+  Serial << " [DONE]" << endl;
 }
 
 void A7105::set_channel(u8 channel) {
