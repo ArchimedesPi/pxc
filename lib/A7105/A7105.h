@@ -35,6 +35,8 @@ private:
   void set_channel(u8 channel);
   void set_tx_power(u8 powerlevel);
   void write_id(u32 id);
+  void write_data(u8 *buffer, unsigned int len);
+  void read_data(u8 *buffer, unsigned int len);
 
   void write_register(u8 reg, u8 data);
   u8 read_register(u8 reg);

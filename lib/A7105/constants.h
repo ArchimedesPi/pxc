@@ -69,4 +69,7 @@ enum A7105_TXPower {
   A7105_TXPOWER_150mW,
 };
 
+// -- misc
+#define A7105_FIFO_START 0x05
+
 #endif

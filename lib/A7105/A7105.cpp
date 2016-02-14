@@ -174,3 +174,22 @@ void A7105::strobe(u8 state) {
   SPI.transfer(state);
   t_end();
 }
+
+void A7105::write_data(u8 *buffer, unsigned int len) {
+  t_start();
+  SPI.transfer(A7105_STATE_RESET_WRITE_POINTER);
+  SPI.transfer(A7105_FIFO_START);
+
+  for (unsigned int i = 0; i < len; i++) {
+    SPI.transfer(buffer[i]);
+  }
+  t_end();
+}
+
+void A7105::read_data(u8 *buffer, unsigned int len) {
+  strobe(A7105_STATE_RESET_READ_POINTER);
+
+  for (unsigned int i; i < len; i++) {
+    buffer[i] = read_register(A7105_FIFO_START);
+  }
+}
