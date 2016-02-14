@@ -138,8 +138,6 @@ u8 A7105::read_register(u8 reg) {
 }
 
 void A7105::strobe(u8 state) {
-  Serial << "strobe(" << _HEX(state) << ")" << endl;
-
   t_start();
   SPI.transfer(state);
   t_end();
