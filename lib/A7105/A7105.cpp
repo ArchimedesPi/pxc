@@ -125,6 +125,18 @@ void A7105::set_tx_power(u8 power) {
   write_register(A7105_REG_TX_TEST, (pac << 3) | tbg);
 }
 
+void A7105::write_id(u32 id) {
+  t_start();
+  SPI.transfer(A7105_REG_ID);
+  SPI.transfer((id >> 24) & 0xFF);
+  SPI.transfer((id >> 16) & 0xFF);
+  SPI.transfer((id >> 8) & 0xFF);
+  SPI.transfer((id >> 0) & 0xFF);
+  t_end();
+}
+
+
+
 // -- debugging
 void A7105::dump_registers() {
   for (int reg=0x00; reg<=0xff; reg++) {

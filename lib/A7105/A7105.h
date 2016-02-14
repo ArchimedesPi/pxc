@@ -8,6 +8,7 @@
 #include "constants.h"
 
 #define u8 uint8_t
+#define u32 uint32_t
 
 inline void panic(char* msg) {
   Serial << "PANIC (" << msg << ")!" << endl <<" HANGING." << endl;
@@ -33,6 +34,7 @@ private:
 
   void set_channel(u8 channel);
   void set_tx_power(u8 powerlevel);
+  void write_id(u32 id);
 
   void write_register(u8 reg, u8 data);
   u8 read_register(u8 reg);
