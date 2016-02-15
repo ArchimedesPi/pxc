@@ -24,14 +24,6 @@ public:
 
   void dump_registers();
 
-private:
-  inline void t_start() {digitalWrite(cs_pin, LOW);}
-  inline void t_end() {digitalWrite(cs_pin, HIGH);}
-
-  void init_registers();
-  void calibrate_if();
-  void calibrate_vco(u8 channel);
-
   void set_channel(u8 channel);
   void set_tx_power(u8 powerlevel);
   void write_id(u32 id);
@@ -41,6 +33,15 @@ private:
   void write_register(u8 reg, u8 data);
   u8 read_register(u8 reg);
   void strobe(u8 state);
+
+
+private:
+  inline void t_start() {digitalWrite(cs_pin, LOW);}
+  inline void t_end() {digitalWrite(cs_pin, HIGH);}
+
+  void init_registers();
+  void calibrate_if();
+  void calibrate_vco(u8 channel);
 
   u8 cs_pin;
 };
