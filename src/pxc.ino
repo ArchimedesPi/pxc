@@ -11,6 +11,7 @@ void setup() {
 
   radio.begin();
   quad.begin();
+  quad.bind();
   //radio.dump_registers();
 }
 
