@@ -7,6 +7,8 @@ Hubsan quad(radio);
 
 void setup() {
   Serial.begin(115200);
+  srand(analogRead(A0));
+
   radio.begin();
   quad.begin();
   //radio.dump_registers();
