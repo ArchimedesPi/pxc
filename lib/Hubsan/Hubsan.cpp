@@ -41,7 +41,7 @@ void Hubsan::send_packet(u8 *packet, unsigned int len) {
   radio.strobe(A7105_STATE_TX);
   delay(2);
 
-  for (int i; i < 4; i++) {
+  for (int i=0; i < 4; i++) {
     digitalWrite(A0, HIGH);
 
     Serial << "mode reg: " << _HEX(radio.read_register(A7105_REG_MODE)) << endl;
